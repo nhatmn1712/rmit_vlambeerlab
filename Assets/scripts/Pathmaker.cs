@@ -1,41 +1,43 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// MAZE PROC GEN LAB
+// INTRO TO PROC GEN LAB
 // all students: complete steps 1-6, as listed in this file
 // optional: if you're up for a mind safari, complete the "extra tasks" to do at the very bottom
 
 // STEP 1: ======================================================================================
 // put this script on a Sphere... it SHOULD move around, and drop a path of floor tiles behind it
 
-public class Pathmaker : MonoBehaviour {
+public class Pathmaker : MonoBehaviour
+{
 
-// STEP 2: ============================================================================================
-// translate the pseudocode below
+    // STEP 2: ============================================================================================
+    // translate the pseudocode below
 
-//	DECLARE CLASS MEMBER VARIABLES:
-//	Declare a private integer called counter that starts at 0; 		// counter will track how many floor tiles I've instantiated
-//	Declare a public Transform called floorPrefab, assign the prefab in inspector;
-//	Declare a public Transform called pathmakerSpherePrefab, assign the prefab in inspector; 		// you'll have to make a "pathmakerSphere" prefab later
+    //	DECLARE CLASS MEMBER VARIABLES:
+    //	Declare a private integer called counter that starts at 0; 		// counter will track how many floor tiles I've instantiated
+    //	Declare a public Transform called floorPrefab, assign the prefab in inspector;
+    //	Declare a public Transform called pathmakerSpherePrefab, assign the prefab in inspector; 		// you'll have to make a "pathmakerSphere" prefab later
 
 
-	void Update () {
-//		If counter is less than 50, then:
-//			Generate a random number from 0.0f to 1.0f;
-//			If random number is less than 0.25f, then rotate myself 90 degrees;
-//				... Else if number is 0.25f-0.5f, then rotate myself -90 degrees;
-//				... Else if number is 0.99f-1.0f, then instantiate a pathmakerSpherePrefab clone at my current position;
-//			// end elseIf
+    void Update()
+    {
+        //		If counter is less than 50, then:
+        //			Generate a random number from 0.0f to 1.0f;
+        //			If random number is less than 0.25f, then rotate myself 90 degrees;
+        //				... Else if number is 0.25f-0.5f, then rotate myself -90 degrees;
+        //				... Else if number is 0.99f-1.0f, then instantiate a pathmakerSpherePrefab clone at my current position;
+        //			// end elseIf
 
-//			Instantiate a floorPrefab clone at current position;
-//			Move forward ("forward", as in, the direction I'm currently facing) by 5 units;
-//			Increment counter;
-//		Else:
-//			Destroy my game object; 		// self destruct if I've made enough tiles already
-	}
+        //			Instantiate a floorPrefab clone at current position;
+        //			Move forward ("forward", as in, the direction I'm currently facing) by 5 units;
+        //			Increment counter;
+        //		Else:
+        //			Destroy my game object; 		// self destruct if I've made enough tiles already
+    }
 
-} 
+}
 
 // MORE STEPS BELOW!!!........
 
