@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 989
   m_ShowMode: 4
-  m_Title: Scene
+  m_Title: Project
   m_RootView: {fileID: 3}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -43,8 +43,8 @@ MonoBehaviour:
     y: 0
     width: 169
     height: 704
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 102, y: 121}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
@@ -220,8 +220,8 @@ MonoBehaviour:
     y: 0
     width: 272
     height: 704
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
@@ -246,8 +246,8 @@ MonoBehaviour:
     y: 0
     width: 851
     height: 704
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 18}
@@ -274,8 +274,8 @@ MonoBehaviour:
     y: 0
     width: 257
     height: 704
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 277, y: 71}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 21}
   m_Panes:
   - {fileID: 21}
@@ -305,7 +305,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 127
+  controlID: 83
   draggingID: 0
 --- !u!114 &13
 MonoBehaviour:
@@ -380,8 +380,8 @@ MonoBehaviour:
     y: 0
     width: 371
     height: 939
-  m_MinSize: {x: 275, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 27}
   m_Panes:
   - {fileID: 26}
@@ -525,8 +525,8 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
+      m_SelectedIDs: 604c0000
+      m_LastClickedID: 19552
       m_ExpandedIDs: 30fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -1047,9 +1047,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 70.13353, y: 45.92574, z: 0}
+    m_Target: {x: 94.325325, y: 23.96485, z: 0}
     speed: 2
-    m_Value: {x: 70.13353, y: 45.92574, z: 0}
+    m_Value: {x: 94.325325, y: 23.96485, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1099,9 +1099,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 1, z: 0, w: 0}
   m_Size:
-    m_Target: 145.32959
+    m_Target: 166.47954
     speed: 2
-    m_Value: 145.32959
+    m_Value: 166.47954
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1293,7 +1293,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Another way to do from yotube
+    - Assets
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -1301,16 +1301,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Another way to do from yotube
+  - Assets
   m_LastFoldersGridSize: -1
   m_LastProjectPath: "C:\\Users\\bimup\\OneDrive\\\uBB38\uC11C\\A2 GDS\\rmit_vlambeerlab"
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: e04c0000
-    m_LastClickedID: 19680
-    m_ExpandedIDs: 00000000b64c000000ca9a3bffffff7f
+    m_SelectedIDs: b04c0000
+    m_LastClickedID: 19632
+    m_ExpandedIDs: 00000000b04c000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1338,7 +1338,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000b64c0000
+    m_ExpandedIDs: 00000000b04c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1369,18 +1369,18 @@ MonoBehaviour:
     m_ExpandedInstanceIDs: c623000066a701009eab08008eab080040e7000018e20000a2d8000034b50000d6d80000ceac0000c2d20000e6ad00005eae0600b6ad00000eb90000d0ad0000cee70000eee80000b86a0200d6ae0200f8d00200b60f010078e0060030db00001cc100003edb000038db00002cdb0000a0fa0c00d63d010090df0100a84b010092e5000008e50000f4f70200fa180300be5907002cf6070090e4000012ec00003acb0200fa4e0400781e01005e1e01003a210100fa1d010086640400f4b6010036de00000cd80000c4da00009a23010012cd050064550100f2020100fce600009e2a020066eb00003ed20000f8d400006c0d0b00c8742100fa2e0100826e010014380100eaf102001a71150098e50000022c03005cf7140012f6140040f714009678010094780100927801008a780100dc7301002e760100349c01008492040082221b0084221b00a0221b00f4211b0004481b0098920400b2920400922d1c00902d1c00b6920400344f1c00e04a1b0088221b001e280100ba020500cecd0000bc020500425d06004ace00003cce0000aab60700ee1d0100ccda070084dc070072e007006ee00700bae507005c4e0100784e0100543f0e00f0bd10001a0c0c0060cd10006a0a01000ecf0100fad30100d6ce010064d40100f8ce0100ccd30100d6d30100a6d30100fed30100b0ce010014cf01006ce6030090d30100ced40100c6d4010086d401001ccf0100eece01007ad301006eda010038a60100386a01003c6a010092d300005af2000094d30000deef000038e900006ae90000829c0100849c0100869c0100809c0100889c010096ef0000482501004a250100442501005625010058250100faf000000af10000bed30000dae4010004690100e2d40400880401000e420700f2130100b6f70000c2f70000e8f70000aaf70000e8f8000034130a00f4af0a0036442c00f6ee2d002ef50000f8410600427e12005685030098780400c8b3090030360100b47b040014e70000bce90000b2e90000f8e900005aea00003eea00006c53120064eb0000fcfe0500ecea0000dcea00009c970d00b8de0000bede0000faea000004df00004ede000010df0000e2eb000006e00000cae000000ae0000004e100003ae0000060f500004aed0000bcf50000763302007aed000090ed000070ef00004eef00005ef800006ae300000000000094e2000056ef0000faf900006e3d0100faf60000aef70b00b0f70b00acf70b00983e010002fb6400680f8b00c0fd0000cafd0000a0ce0c0012fe00005af10000440c0100befe0000dcfe0000dafe0000eefe0000a2fe000034ff00008600010040000100e0000100b000010050010100c0630000b8630000bc630000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: WorldGenerator
-      m_OriginalName: WorldGenerator
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 19704
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 13}
     m_CreateAssetUtility:
@@ -1505,7 +1505,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -201774
+  m_LastSelectedObjectID: 19552
 --- !u!114 &26
 MonoBehaviour:
   m_ObjectHideFlags: 52

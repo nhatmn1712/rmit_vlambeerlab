@@ -11,7 +11,6 @@ public class WorldGenerator : MonoBehaviour
 
     void Start()
     {
-        // Generate noise map
         float[,] noiseMap = new float[size, size];
         (float xOffset, float yOffset) = (Random.Range(-10000f, 10000f), Random.Range(-10000f, 10000f));
         for (int y = 0; y < size; y++)
@@ -23,7 +22,6 @@ public class WorldGenerator : MonoBehaviour
             }
         }
 
-        // Generate falloff map
         float[,] faloffMap = new float[size, size];
         for (int y = 0; y < size; y++)
         {
@@ -36,7 +34,6 @@ public class WorldGenerator : MonoBehaviour
             }
         }
 
-        // Initialize grid and create cubes
         grid = new Cell[size, size];
         for (int y = 0; y < size; y++)
         {
@@ -46,16 +43,13 @@ public class WorldGenerator : MonoBehaviour
                 noiseValue -= faloffMap[x, y];
                 bool isWater = noiseValue < waterLevel;
 
-                // Create Cell
                 Cell cell = new Cell(isWater);
                 grid[x, y] = cell;
 
-                // Create GameObject (cube) for visualization
                 GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 cube.transform.position = new Vector3(x, 0, y);
                 cube.transform.localScale = Vector3.one;
 
-                // Set cube color based on whether it's water or land
                 Renderer renderer = cube.GetComponent<Renderer>();
                 if (cell.isWater)
                 {
