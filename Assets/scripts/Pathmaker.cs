@@ -1,42 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-// INTRO TO PROC GEN LAB
-// all students: complete steps 1-6, as listed in this file
-// optional: if you're up for a mind safari, complete the "extra tasks" to do at the very bottom
-
-// STEP 1: ======================================================================================
-// put this script on a Sphere... it SHOULD move around, and drop a path of floor tiles behind it
+using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public static class CountDown
 {
     public static int counter;
-}
+    public static bool Done;
 
+    public static GameObject randomTile;
+    public static List<GameObject> generatedObjects = new List<GameObject>();
+    public static List<GameObject> pathmakerSpheres = new List<GameObject>();
+}
 
 public class Pathmaker : MonoBehaviour
 {
+    public bool isOrigin;
 
-
-    // STEP 2: ============================================================================================
-    // translate the pseudocode below
-
-    //	DECLARE CLASS MEMBER VARIABLES:
-    //	Declare a private integer called counter that starts at 0; 		// counter will track how many floor tiles I've instantiated
-    //	Declare a public Transform called floorPrefab, assign the prefab in inspector;
-    //	Declare a public Transform called pathmakerSpherePrefab, assign the prefab in inspector; 		// you'll have to make a "pathmakerSphere" prefab later
-    public Transform floorPrefab;
+    public Transform[] floorTilePrefabs;
 
     public Transform pathmakerSpherePrefab;
 
+    public GameObject wallPrefab;  // Reference to the wall prefab
+
+
+    void Start()
+    {
+        // Randomly select one floor prefab from the array at the start
+        if (isOrigin)
+            SelectRandomFloorTile();
+    }
 
     void Update()
     {
+        //		If counter is less than 50, then:
         if (CountDown.counter < 150)
         {
             float randomNumber = Random.Range(0.0f, 1.0f);
+
             if (randomNumber < 0.25f)
             {
                 transform.localEulerAngles += new Vector3(0f, 90f, 0f);
@@ -49,7 +54,9 @@ public class Pathmaker : MonoBehaviour
 
             else if (randomNumber >= 0.95f && randomNumber <= 1.0f)
             {
-                Instantiate(pathmakerSpherePrefab, transform.position, Quaternion.identity);
+                GameObject pathmaker = Instantiate(pathmakerSpherePrefab, transform.position, Quaternion.identity).gameObject;
+                pathmaker.GetComponent<Pathmaker>().isOrigin = false;
+                CountDown.pathmakerSpheres.Add(pathmaker);
             }
             else
             {
@@ -58,7 +65,8 @@ public class Pathmaker : MonoBehaviour
                 {
                     for (int i = 0; i < Random.Range(5, 10); i++)
                     {
-                        Instantiate(floorPrefab, transform.position, Quaternion.identity);
+                        CountDown.generatedObjects.Add(Instantiate(CountDown.randomTile, transform.position, Quaternion.identity).gameObject);
+                        UpdateCamera();
                         transform.position += transform.forward * 1.0f;
                     }
                 }
@@ -71,68 +79,100 @@ public class Pathmaker : MonoBehaviour
                         for (int y = 0; y < space; y++)
                         {
                             Vector3 newPosition = new Vector3(oldPosition.x + x, oldPosition.y, oldPosition.z + y);
-                            Instantiate(floorPrefab, newPosition, Quaternion.identity);
+                            CountDown.generatedObjects.Add(Instantiate(CountDown.randomTile, newPosition, Quaternion.identity).gameObject);
+                            UpdateCamera();
                             transform.position = newPosition;
                         }
                     }
                 }
 
                 CountDown.counter++;
+
+
+
             }
         }
+
         else
         {
-            Destroy(gameObject);
-        }
+            gameObject.SetActive(isOrigin);
 
+        }
+        if (CountDown.counter == 150)
+        {
+            CountDown.Done = true;
+
+            Debug.Log("Done");
+            if (CountDown.Done && Input.GetKey(KeyCode.X))
+            {
+                Debug.Log("Pressed");
+                var sceneName = SceneManager.GetActiveScene();
+                SceneManager.LoadScene(sceneName.name);
+
+                CountDown.counter = 0;
+                CountDown.Done = false;
+
+                foreach (var generatedObject in CountDown.generatedObjects)
+                {
+                    Destroy(generatedObject);
+                }
+
+                foreach (var pathmakerSphere in CountDown.pathmakerSpheres)
+                {
+                    Destroy(pathmakerSphere);
+                }
+
+                CountDown.generatedObjects.Clear();
+                CountDown.pathmakerSpheres.Clear();
+
+                SelectRandomFloorTile();
+            }
+        }
 
     }
 
+    void SelectRandomFloorTile()
+    {
+        int randomIndex = Random.Range(0, floorTilePrefabs.Length);
+        CountDown.randomTile = floorTilePrefabs[randomIndex].gameObject;
+    }
+    void PlaceWallsAroundFloor(Vector3 floorPosition)
+    {
+        // Check if there is a void around the current floor position and place walls accordingly.
+        if (IsVoid(floorPosition + Vector3.up)) InstantiateWall(floorPosition + Vector3.up);  // North
+        if (IsVoid(floorPosition + Vector3.down)) InstantiateWall(floorPosition + Vector3.down); // South
+        if (IsVoid(floorPosition + Vector3.right)) InstantiateWall(floorPosition + Vector3.right); // East
+        if (IsVoid(floorPosition + Vector3.left)) InstantiateWall(floorPosition + Vector3.left);  // West
+    }
 
+    bool IsVoid(Vector3 position)
+    {
+        // Perform a raycast or check if there's an existing floor tile at the position
+        RaycastHit hit;
+        if (Physics.Raycast(position, Vector3.down, out hit, 1f))
+        {
+            return hit.collider == null; // No floor tile means it's a void
+        }
+        return true;
+    }
 
-    //		If counter is less than 50, then:
-    //			Generate a random number from 0.0f to 1.0f;
-    //			If random number is less than 0.25f, then rotate myself 90 degrees;
-    //				... Else if number is 0.25f-0.5f, then rotate myself -90 degrees;
-    //				... Else if number is 0.99f-1.0f, then instantiate a pathmakerSpherePrefab clone at my current position;
-    //			// end elseIf
+    void InstantiateWall(Vector3 position)
+    {
+        Instantiate(wallPrefab, position, Quaternion.identity);
+    }
 
-    //			Instantiate a floorPrefab clone at current position;
-    //			Move forward ("forward", as in, the direction I'm currently facing) by 5 units;
-    //			Increment counter;
-    //		Else:
-    //			Destroy my game object; 		// self destruct if I've made enough tiles already
+    public void UpdateCamera()
+    {
+        Vector3 averagePos = Vector3.zero;
+        foreach (var generatedObject in CountDown.generatedObjects)
+        {
+            averagePos += generatedObject.transform.localPosition;
+        }
+        averagePos /= CountDown.generatedObjects.Count;
+
+        Camera.main.transform.position = new Vector3(averagePos.x, Camera.main.transform.position.y, averagePos.z);
+    }
 }
-
-
-// MORE STEPS BELOW!!!........
-
-// STEP 3: =====================================================================================
-// implement, test, and stabilize the system
-
-//	IMPLEMENT AND TEST:
-//	- save your scene! the code could potentially be infinite / exponential, and crash Unity
-//	- put Pathmaker.cs on a sphere, configure all the prefabs in the Inspector, and test it to make sure it works
-//	STABILIZE: 
-//	- code it so that all the Pathmakers can only spawn a grand total of 500 tiles in the entire world; how would you do that?
-//	- hint: declare a "public static int" and have each Pathmaker check this "globalTileCount", somewhere in your code? 
-//      -  What is a 'static'?  Static???  Simply speak the password "static" to the instructor and knowledge will flow.
-//	- Perhaps... if there already are enough tiles maybe the Pathmaker could Destroy my game object
-
-// STEP 4: ======================================================================================
-// tune your values...
-
-// a. how long should a pathmaker live? etc.  (see: static  ---^)
-// b. how would you tune the probabilities to generate lots of long hallways? does it... work?
-// c. tweak all the probabilities that you want... what % chance is there for a pathmaker to make a pathmaker? is that too high or too low?
-
-
-
-// STEP 5: ===================================================================================
-// maybe randomize it even more?
-
-// - randomize 2 more variables in Pathmaker.cs for each different Pathmaker... you would do this in Start()
-// - maybe randomize each pathmaker's lifetime? maybe randomize the probability it will turn right? etc. if there's any number in your code, you can randomize it if you move it into a variable
 
 
 
