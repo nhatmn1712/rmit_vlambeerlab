@@ -136,6 +136,7 @@ public class Pathmaker : MonoBehaviour
         int randomIndex = Random.Range(0, floorTilePrefabs.Length);
         CountDown.randomTile = floorTilePrefabs[randomIndex].gameObject;
     }
+
     void PlaceWallsAroundFloor(Vector3 floorPosition)
     {
         // Check if there is a void around the current floor position and place walls accordingly.
