@@ -11,9 +11,11 @@ public static class CountDown
 {
     public static int counter;
     public static bool Done;
+    public static bool placeWall;
 
     public static GameObject randomTile;
     public static List<GameObject> generatedObjects = new List<GameObject>();
+    public static List<GameObject> wallObjects = new List<GameObject>();
     public static List<GameObject> pathmakerSpheres = new List<GameObject>();
 }
 
@@ -54,7 +56,7 @@ public class Pathmaker : MonoBehaviour
 
             else if (randomNumber >= 0.95f && randomNumber <= 1.0f)
             {
-                GameObject pathmaker = Instantiate(pathmakerSpherePrefab, transform.position, Quaternion.identity).gameObject;
+                GameObject pathmaker = Instantiate(pathmakerSpherePrefab, transform.position, Quaternion.identity, GameManager.Instance.Generation1.transform).gameObject;
                 pathmaker.GetComponent<Pathmaker>().isOrigin = false;
                 CountDown.pathmakerSpheres.Add(pathmaker);
             }
@@ -65,7 +67,7 @@ public class Pathmaker : MonoBehaviour
                 {
                     for (int i = 0; i < Random.Range(5, 10); i++)
                     {
-                        CountDown.generatedObjects.Add(Instantiate(CountDown.randomTile, transform.position, Quaternion.identity).gameObject);
+                        CountDown.generatedObjects.Add(Instantiate(CountDown.randomTile, transform.position, Quaternion.identity, GameManager.Instance.Generation1.transform).gameObject);
                         UpdateCamera();
                         transform.position += transform.forward * 1.0f;
                     }
@@ -79,7 +81,7 @@ public class Pathmaker : MonoBehaviour
                         for (int y = 0; y < space; y++)
                         {
                             Vector3 newPosition = new Vector3(oldPosition.x + x, oldPosition.y, oldPosition.z + y);
-                            CountDown.generatedObjects.Add(Instantiate(CountDown.randomTile, newPosition, Quaternion.identity).gameObject);
+                            CountDown.generatedObjects.Add(Instantiate(CountDown.randomTile, newPosition, Quaternion.identity, GameManager.Instance.Generation1.transform).gameObject);
                             UpdateCamera();
                             transform.position = newPosition;
                         }
@@ -92,43 +94,22 @@ public class Pathmaker : MonoBehaviour
 
             }
         }
-
         else
         {
             gameObject.SetActive(isOrigin);
 
-        }
-        if (CountDown.counter == 150)
-        {
-            CountDown.Done = true;
-
-            Debug.Log("Done");
-            if (CountDown.Done && Input.GetKey(KeyCode.X))
+            if (isOrigin && !CountDown.placeWall)
             {
-                Debug.Log("Pressed");
-                var sceneName = SceneManager.GetActiveScene();
-                SceneManager.LoadScene(sceneName.name);
-
-                CountDown.counter = 0;
-                CountDown.Done = false;
-
-                foreach (var generatedObject in CountDown.generatedObjects)
+                Debug.Log("PlaceWallsAroundFloor");
+                CountDown.placeWall = true;
+                foreach (var floor in CountDown.generatedObjects)
                 {
-                    Destroy(generatedObject);
+                    PlaceWallsAroundFloor(floor.transform.position);
                 }
-
-                foreach (var pathmakerSphere in CountDown.pathmakerSpheres)
-                {
-                    Destroy(pathmakerSphere);
-                }
-
-                CountDown.generatedObjects.Clear();
-                CountDown.pathmakerSpheres.Clear();
-
-                SelectRandomFloorTile();
             }
-        }
 
+            CountDown.Done = true;
+        }
     }
 
     void SelectRandomFloorTile()
@@ -140,8 +121,8 @@ public class Pathmaker : MonoBehaviour
     void PlaceWallsAroundFloor(Vector3 floorPosition)
     {
         // Check if there is a void around the current floor position and place walls accordingly.
-        if (IsVoid(floorPosition + Vector3.up)) InstantiateWall(floorPosition + Vector3.up);  // North
-        if (IsVoid(floorPosition + Vector3.down)) InstantiateWall(floorPosition + Vector3.down); // South
+        if (IsVoid(floorPosition + Vector3.forward)) InstantiateWall(floorPosition + Vector3.forward);  // North
+        if (IsVoid(floorPosition + Vector3.back)) InstantiateWall(floorPosition + Vector3.back); // South
         if (IsVoid(floorPosition + Vector3.right)) InstantiateWall(floorPosition + Vector3.right); // East
         if (IsVoid(floorPosition + Vector3.left)) InstantiateWall(floorPosition + Vector3.left);  // West
     }
@@ -150,7 +131,7 @@ public class Pathmaker : MonoBehaviour
     {
         // Perform a raycast or check if there's an existing floor tile at the position
         RaycastHit hit;
-        if (Physics.Raycast(position, Vector3.down, out hit, 1f))
+        if (Physics.Raycast(position + Vector3.up * 3, Vector3.down, out hit, Mathf.Infinity))
         {
             return hit.collider == null; // No floor tile means it's a void
         }
@@ -159,7 +140,7 @@ public class Pathmaker : MonoBehaviour
 
     void InstantiateWall(Vector3 position)
     {
-        Instantiate(wallPrefab, position, Quaternion.identity);
+        CountDown.wallObjects.Add(Instantiate(wallPrefab, position, Quaternion.identity, GameManager.Instance.Generation1.transform));
     }
 
     public void UpdateCamera()
@@ -171,7 +152,8 @@ public class Pathmaker : MonoBehaviour
         }
         averagePos /= CountDown.generatedObjects.Count;
 
-        Camera.main.transform.position = new Vector3(averagePos.x, Camera.main.transform.position.y, averagePos.z);
+        Camera.main.transform.position = new Vector3(averagePos.x, 80f, averagePos.z);
+        Camera.main.transform.localEulerAngles = new Vector3(90f, 0, 0);
     }
 }
 

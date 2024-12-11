@@ -3,6 +3,8 @@ using UnityEngine;
 public class WorldGenerator : MonoBehaviour
 {
     public float waterLevel = .4f;
+    public GameObject Prefab_Grass;
+    public GameObject Prefab_Water;
     public GameObject[] treePreFabs;
     public float scale = .1f;
     public float treeNoiseScale = .05f;
@@ -11,7 +13,7 @@ public class WorldGenerator : MonoBehaviour
 
     Cell[,] grid;
 
-    void Start()
+    void OnEnable()
     {
         grid = new Cell[size, size];
         float[,] noiseMap = new float[size, size];
@@ -51,16 +53,26 @@ public class WorldGenerator : MonoBehaviour
                 Cell cell = new Cell(isWater);
                 grid[x, y] = cell;
 
-                GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                GameObject cube = null;
+                if (cell.isWater)
+                {
+                    cube = Instantiate(Prefab_Water);
+                }
+                else
+                {
+                    cube = Instantiate(Prefab_Grass);
+                }
+
                 cube.transform.position = new Vector3(x, 0, y);
                 cube.transform.localScale = Vector3.one;
-
-                Renderer renderer = cube.GetComponent<Renderer>();
-                renderer.material.color = cell.isWater ? Color.blue : Color.green;
+                cube.transform.SetParent(GameManager.Instance.Generation2.transform);
+                CountDown.generatedObjects.Add(cube);
             }
         }
 
-
+        Camera.main.transform.localPosition = new Vector3(45.5f, 21.1f, 24.8f);
+        Camera.main.transform.localEulerAngles = new Vector3(52.3f, 0, 0);
+        CountDown.Done = true;
         GenerateTrees(grid);
     }
 
@@ -89,8 +101,9 @@ public class WorldGenerator : MonoBehaviour
                     if (noiseMap[x, y] < v)
                     {
                         GameObject prefab = treePreFabs[Random.Range(0, treePreFabs.Length)];
-                        GameObject tree = Instantiate(prefab, transform);
-                        tree.transform.position = new Vector3(x, 0, y);
+                        GameObject tree = Instantiate(prefab, transform.position, Quaternion.identity, GameManager.Instance.Generation2.transform);
+                        CountDown.generatedObjects.Add(tree);
+                        tree.transform.position = new Vector3(x, .5f, y);
                         tree.transform.rotation = Quaternion.Euler(0, Random.Range(0f, 360f), 0);
                         tree.transform.localScale = Vector3.one * Random.Range(.8f, 1.2f);
                     }
